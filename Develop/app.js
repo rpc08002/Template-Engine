@@ -160,3 +160,59 @@ const mainApp = () => {
       });
   };
 
+  // Create an Intern
+  const promptIntern = () => {
+    console.log('Please enter intern info');
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'internName',
+          message: 'Enter interns name:',
+          validate(value) {
+            const valid = isNaN(value);
+            return valid || 'Please enter a name.';
+          },
+        },
+        {
+          type: 'input',
+          name: 'internId',
+          message: 'Enter interns Id:',
+          validate(value) {
+            const valid = !isNaN(parseFloat(value));
+            return valid || 'Please enter a number.';
+          },
+        },
+        {
+          type: 'input',
+          name: 'internEmail',
+          message: 'Enter interns email:',
+          validate(value) {
+            const valid = isNaN(value);
+            return valid || 'Please enter an email.';
+          },
+        },
+        {
+          type: 'input',
+          name: 'internSchool',
+          message: 'Enter interns school:',
+          validate(value) {
+            const valid = isNaN(value);
+            return valid || 'Please enter a school.';
+          },
+        },
+      ])
+      .then(response => {
+        const intern = new Intern(
+          response.internName,
+          response.internId,
+          response.internEmail,
+          response.internSchool
+        );
+        const internCardHtml = internCard(intern);
+
+        fullTeam.push(internCardHtml);
+        addTeamMembers();
+      });
+  };
+}
