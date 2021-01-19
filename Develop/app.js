@@ -12,14 +12,68 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const mainHTML = require("./templates/mainHTML")
 
+// Cards
+const managerCard = require('./templates/managerhtml');
+const internCard = require('./templates/internhtml');
+const engineerCard = require('./templates/engineerhtml');
 
+const fullTeam = [];
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+// Initial Prompt
+const mainApp = () => {
+    console.log('Please build your team');
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'managerName',
+          message: 'What is your Managers name?',
+          validate(value) {
+            const valid = isNaN(value);
+            return valid || 'Please enter a name.';
+          },
+        },
+        {
+          type: 'input',
+          name: 'managerId',
+          message: 'What is the employee id?',
+          validate(value) {
+            const valid = !isNaN(parseFloat(value));
+            return valid || 'Please enter a number.';
+          },
+        },
+        {
+          type: 'input',
+          name: 'managerEmail',
+          message: 'What is your managers email?',
+          validate(value) {
+            const valid = isNaN(value);
+            return valid || 'Please enter an email.';
+          },
+        },
+        {
+          type: 'input',
+          name: 'officeNumber',
+          message: 'What is your managers office number?',
+          validate(value) {
+            const valid = !isNaN(parseFloat(value));
+            return valid || 'Please enter a number.';
+          },
+        },
+      ])
+      .then(response => {
+        const manager = new Manager(
+          response.managerName,
+          response.managerId,
+          response.managerEmail,
+          response.officeNumber
+        );
+        const managerCardHtml = managerCard(manager);
+        fullTeam.push(managerCardHtml);
+        addTeamMembers();
+      });
 
-const render = require("./lib/htmlRenderer");
-
-
+    }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -41,4 +95,4 @@ const render = require("./lib/htmlRenderer");
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// for the provided `render` function to work!
