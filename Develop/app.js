@@ -73,7 +73,39 @@ const mainApp = () => {
         addTeamMembers();
       });
 
-    }
+    // Add Additional Team Members
+    function addTeamMembers() {
+        inquirer
+          .prompt([
+            {
+              type: 'list',
+              name: 'addMembers',
+              message: 'What would you like to do?',
+              choices: [
+                'Add an Engineer',
+                'Add an Intern',
+                "I'm all done. Let's see my team!",
+              ],
+            },
+          ])
+          .then(answers => {
+            switch (answers.addMembers) {
+              case 'Add an Engineer': {
+                promptEngineer();
+                break;
+              }
+              case 'Add an Intern': {
+                promptIntern();
+                break;
+              }
+              case "I'm all done. Let's see my team!": {
+                buildTeam();
+                break;
+              }
+            }
+          });
+        }
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
