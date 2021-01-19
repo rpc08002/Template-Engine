@@ -215,4 +215,12 @@ const mainApp = () => {
         addTeamMembers();
       });
   };
-}
+
+// Create an Html Document
+  function buildTeam() {
+    const finalTeam = fullTeam.join('');
+    fs.writeFileSync(outputPath, mainHTML(finalTeam), 'utf-8');
+  }
+};
+
+mainApp();
